@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Viet Kitchen | Vietnamské Bistro – Banská Štiavnica</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0b0f14;
+  --surface:#121821;
+  --card:#171f2b;
+  --accent:#eab308;
+  --accent2:#ef4444;
+  --text:#e5e7eb;
+  --muted:#9ca3af;
+}
+
+/* RESET */
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Poppins,sans-serif;background:var(--bg);color:var(--text);line-height:1.6;scroll-behavior:smooth}
+
+/* NAVBAR */
+header{
+  position:fixed;top:0;width:100%;
+  background:rgba(11,15,20,0.95);
+  backdrop-filter:blur(12px);
+  padding:15px 5%;
+  display:flex;justify-content:space-between;align-items:center;
+  z-index:1000;border-bottom:1px solid rgba(255,255,255,0.05);
+}
+.logo{font-weight:700;font-size:20px;letter-spacing:2px;}
+nav{display:flex;align-items:center;gap:24px;transition:0.3s ease;}
+nav a{text-decoration:none;color:var(--text);font-weight:500;position:relative;padding:6px 0;transition:0.3s;}
+nav a::after{content:"";position:absolute;bottom:0;left:0;width:0;height:2px;background:var(--accent);transition:0.3s;}
+nav a:hover::after{width:100%;}
+
+/* HAMBURGER */
+.hamburger{display:flex;flex-direction:column;gap:5px;cursor:pointer;z-index:1500;}
+.hamburger div{width:28px;height:3px;background:var(--text);border-radius:2px;transition:0.3s;}
+.nav-close{display:none;}
+
+/* MOBILE NAVBAR */
+@media(max-width:900px){
+  nav{
+    position:fixed;top:0;left:0;width:100%;height:100%;
+    flex-direction:column;justify-content:center;align-items:center;
+    background:rgba(18,24,33,0.95);
+    transform:translateX(100%);opacity:0;
+    transition:transform 0.35s ease, opacity 0.35s ease;gap:30px;z-index:2000;
+  }
+  nav.show{transform:translateX(0);opacity:1;}
+  nav a{font-size:28px;margin:0;padding:15px;display:block;text-align:center;}
+  nav a:hover{color:var(--accent);}
+  .hamburger{display:flex;}
+  .nav-close{
+    display:block;position:absolute;top:30px;right:30px;font-size:36px;color:var(--accent);cursor:pointer;
+  }
+}
+
+/* DESKTOP NAV */
+@media(min-width:901px){
+  nav{transform:translateX(0) !important;opacity:1 !important;position:static;height:auto;flex-direction:row;background:transparent;gap:32px;}
+  .hamburger{display:none;}
+}
+
+/* HERO */
+.hero{
+  min-height:100vh;
+  background:linear-gradient(rgba(0,0,0,0.65),rgba(0,0,0,0.85)),url("https://images.unsplash.com/photo-1559847844-5315695dadae") center/cover no-repeat;
+  display:flex;flex-direction:column;justify-content:center;align-items:center;text-align:center;padding:20px;position:relative;
+}
+.hero h1{font-size:48px;font-weight:700;margin-bottom:12px;}
+.hero p{max-width:90%;font-size:16px;color:var(--muted);}
+.hero-buttons{margin-top:20px;display:flex;gap:12px;flex-direction:column;width:100%;max-width:300px;}
+.btn{padding:14px 0;border-radius:30px;font-weight:600;border:none;cursor:pointer;transition:0.3s;width:100%;}
+.btn-primary{background:linear-gradient(45deg,var(--accent),var(--accent2));color:black;}
+.btn-secondary{background:transparent;color:white;border:1px solid rgba(255,255,255,0.3);}
+.btn:hover{transform:translateY(-3px);box-shadow:0 15px 30px rgba(0,0,0,0.5);}
+
+/* HERO HOURS */
+.hero-hours{
+  position:absolute;bottom:20px;background:var(--card);padding:12px 18px;border-radius:12px;
+  display:flex;gap:12px;flex-direction:column;align-items:center;box-shadow:0 8px 20px rgba(0,0,0,0.5);
+}
+.hero-hours div{text-align:center;}
+.hero-hours div b{display:block;font-size:14px;margin-bottom:3px;color:var(--accent);}
+.hero-hours div span{color:var(--muted);font-size:13px;}
+
+/* SECTIONS */
+section{padding:80px 5%;}
+.section-title{text-align:center;font-size:32px;margin-bottom:40px;}
+.about{text-align:center;max-width:95%;margin:auto;font-size:15px;color:var(--muted);line-height:1.6;}
+
+/* FEATURES */
+.features{display:flex;justify-content:center;gap:20px;flex-wrap:wrap;margin-top:30px;}
+.feature-card{background:var(--card);padding:20px;border-radius:16px;max-width:240px;text-align:center;transition:0.3s;border:1px solid rgba(255,255,255,0.05);}
+.feature-card:hover{transform:translateY(-6px);border-color:rgba(255,255,255,0.15);}
+.feature-card h3{margin-bottom:8px;color:var(--accent);font-size:16px;}
+
+/* MENU MODAL */
+#menuModal{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.85);display:none;justify-content:center;align-items:center;z-index:2000;padding:15px;}
+#menuModal.show{display:flex}
+#menuModal .modal-content{background:var(--card);border-radius:16px;padding:20px;max-width:95%;width:100%;max-height:90vh;overflow-y:auto;box-shadow:0 10px 30px rgba(0,0,0,0.6);}
+#menuModal h2{text-align:center;margin-bottom:20px;font-size:20px;}
+#menuModal .close-btn{position:absolute;top:15px;right:20px;font-size:28px;color:var(--accent);cursor:pointer;}
+.menu-grid{display:grid;grid-template-columns:1fr;gap:20px;}
+.menu-card{background:var(--card);padding:15px;border-radius:16px;border:1px solid rgba(255,255,255,0.05);transition:0.3s;}
+.menu-card:hover{transform:translateY(-4px);border-color:rgba(255,255,255,0.15);}
+.menu-card p{color:var(--muted);font-size:14px;}
+.price{color:var(--accent);font-weight:600;margin-top:8px;font-size:14px;}
+
+/* GALLERY */
+.gallery{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.gallery img{width:100%;height:160px;object-fit:cover;border-radius:12px;transition:0.3s;}
+.gallery img:hover{transform:scale(1.05);}
+
+/* CONTACT */
+.contact-grid{display:flex;flex-direction:column;gap:20px;}
+.contact-card{background:var(--card);padding:20px;border-radius:16px;border:1px solid rgba(255,255,255,0.05);}
+.contact-card p{color:var(--muted);font-size:14px;}
+.contact-form input,.contact-form textarea{width:100%;padding:10px;margin-bottom:10px;background:var(--surface);border:1px solid rgba(255,255,255,0.08);border-radius:8px;color:white;font-family:Poppins;font-size:14px;}
+.contact-form button{margin-top:5px;width:100%;padding:12px;}
+iframe{width:100%;height:200px;border:none;border-radius:16px;}
+
+/* FOOTER */
+footer{background:#05080c;padding:50px 5%;margin-top:80px;border-top:1px solid rgba(255,255,255,0.05);}
+.footer-grid{display:flex;flex-direction:column;gap:20px;}
+.footer-grid p{color:var(--muted);font-size:13px;}
+.footer-bottom{margin-top:20px;text-align:center;font-size:12px;color:var(--muted);}
+
+/* ANIMATION */
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+
+<body>
+<header>
+  <div class="logo">VIET KITCHEN</div>
+  <div class="hamburger" onclick="toggleNav()"><div></div><div></div><div></div></div>
+  <nav id="navbar">
+    <span class="nav-close" onclick="toggleNav()">&times;</span>
+    <a href="#about" onclick="toggleNav()">O nás</a>
+    <a href="#gallery" onclick="toggleNav()">Galéria</a>
+    <a href="#contact" onclick="toggleNav()">Kontakt</a>
+    <a href="#" onclick="openMenuModal(); toggleNav()">Menu</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <h1>🍜 Vietnamská Kuchyňa 🔥</h1>
+  <p>Moderné vietnamské bistro v historickom centre Banskej Štiavnice. Čerstvé suroviny, tradičné recepty a čistý moderný dizajn.</p>
+  <div class="hero-buttons">
+    <button class="btn btn-primary" onclick="openMenuModal()">Pozrieť Menu</button>
+    <button class="btn btn-secondary" onclick="document.getElementById('contact').scrollIntoView()">Kontakt</button>
+  </div>
+  <div class="hero-hours">
+    <div><b>Pondelok – Piatok</b><span>10:00 – 20:00</span></div>
+    <div><b>Sobota – Nedeľa</b><span>11:00 – 20:00</span></div>
+  </div>
+</section>
+
+<section id="about">
+  <h2 class="section-title">O nás</h2>
+  <p class="about">Viet Kitchen prináša autentickú vietnamskú kuchyňu do srdca Banskej Štiavnice...</p>
+  <div class="features">
+    <div class="feature-card"><h3>Čerstvé suroviny</h3><p>Používame iba najkvalitnejšie a čerstvé suroviny každý deň.</p></div>
+    <div class="feature-card"><h3>Autentická chuť</h3><p>Tradičné recepty Vietnamu pripravované s láskou.</p></div>
+    <div class="feature-card"><h3>Rýchle servírovanie</h3><p>Jedlo podávame čerstvé a rýchlo, aby ste sa cítili komfortne.</p></div>
+  </div>
+</section>
+
+<div id="menuModal">
+  <div class="modal-content">
+    <span class="close-btn" onclick="closeMenuModal()">&times;</span>
+    <h2>Kompletné Menu</h2>
+    <div class="menu-grid">
+      <div class="menu-card"><h3>Pho Bo</h3><p>Tradičná hovädzia polievka s bylinkami a ryžovými rezancami.</p><div class="price">6,50€</div></div>
+      <div class="menu-card"><h3>Bun Cha</h3><p>Grilované bravčové mäso s ryžovými rezancami a zeleninou.</p><div class="price">7,20€</div></div>
+      <div class="menu-card"><h3>Spring Rolls</h3><p>Jarné závitky plnené zeleninou a krevetami.</p><div class="price">5,00€</div></div>
+      <div class="menu-card"><h3>Com Ga</h3><p>Kuracie mäso s ryžou a tradičnými omáčkami.</p><div class="price">6,80€</div></div>
+    </div>
+  </div>
+</div>
+
+<section id="gallery">
+  <h2 class="section-title">Galéria</h2>
+  <div class="gallery">
+    <img src="https://images.unsplash.com/photo-1551183053-bf91a1d81141" alt="Vietnamské jedlo">
+    <img src="https://images.unsplash.com/photo-1544025162-d76694265947" alt="Vietnamské jedlo">
+    <img src="https://images.unsplash.com/photo-1604908176997-4313c8f0d5bd" alt="Vietnamské jedlo">
+  </div>
+</section>
+
+<section id="contact">
+  <h2 class="section-title">Kontakt</h2>
+  <div class="contact-grid">
+    <div class="contact-card">
+      <h3>Viet Kitchen</h3>
+      <p>Banská Štiavnica</p>
+      <p><b>Telefón:</b> +421 952 062 220</p>
+      <p><b>Email:</b> info@vietkitchen.sk</p>
+      <br>
+      <div class="contact-form">
+        <input placeholder="Vaše meno">
+        <input placeholder="Email">
+        <textarea rows="4" placeholder="Správa"></textarea>
+        <button class="btn btn-primary">Odoslať</button>
+      </div>
+    </div>
+    <div><iframe src="https://maps.google.com/maps?q=Bansk%C3%A1%20%C5%A0tiavnica&t=&z=15&ie=UTF8&iwloc=&output=embed"></iframe></div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-grid">
+    <div>
+      <h3>Viet Kitchen</h3>
+      <p>Autentické vietnamské bistro v historickom centre Banskej Štiavnice.</p>
+    </div>
+    <div>
+      <h4>Menu</h4>
+      <p>Pho</p><p>Bun</p><p>Rice</p><p>Street Food</p>
+    </div>
+    <div>
+      <h4>Kontakt</h4>
+      <p>Banská Štiavnica</p>
+      <p>+421 952 062 220</p>
+      <p>info@vietkitchen.sk</p>
+    </div>
+  </div>
+  <div class="footer-bottom">© 2026 Viet Kitchen</div>
+</footer>
+
+<script>
+function openMenuModal(){document.getElementById('menuModal').classList.add('show')}
+function closeMenuModal(){document.getElementById('menuModal').classList.remove('show')}
+function toggleNav(){
+  if(window.innerWidth <= 900){
+    document.getElementById('navbar').classList.toggle('show');
+  }
+}
+</script>
+</body>
+</html>
